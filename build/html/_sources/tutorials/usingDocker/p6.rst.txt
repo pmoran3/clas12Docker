@@ -1,0 +1,28 @@
+:orphan:
+
+.. |br| raw:: html
+
+   <br>
+
+
+===============================
+CLAS12 Docker Tutorial  - *5/5*
+===============================
+
+
+Run same chain but with other generator
+
+
+
+
+
+|
+
+.. image:: ../previous.png
+	:target: 	p5.html
+	:align: right
+
+
+.. image:: ../next.png
+	:target: 	7.html
+	:align: right

@@ -1,0 +1,141 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Running GEMC &#8212; clas12softwarePage 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/mauri.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Installing Docker" href="index.html" /> 
+  </head><body>
+<div class="header-wrapper" role="banner">
+	<div class="header">
+		<div class="headertitle"> CLAS12 Simulation Software Distribution </div>
+		
+		<div class="rel" role="navigation" aria-label="related navigation">
+			
+			<a href="index.html">       home</a>&nbsp;|
+			<a href="#">    examples</a>&nbsp;
+			
+		</div>
+
+		
+		<div class="clearer"></div>
+		
+		
+	</div>
+</div>
+
+<div class="content-wrapper">
+	<div class="content">
+		<div class="document">
+			
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="admonition note" id="examples">
+<p class="first admonition-title">Note</p>
+<p>In the examples below, the local user directory “max” is made available to the docker image with the mount directive:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="nb">max</span><span class="p">:</span><span class="o">/</span><span class="n">jlab</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="nb">max</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-gemc">
+<span id="runninggemcexample"></span><h1>Running GEMC<a class="headerlink" href="#running-gemc" title="Permalink to this headline">¶</a></h1>
+<p>Run the container in batch mode (substitute the max’s path with your home dir path)</p>
+<blockquote>
+<div>docker run -it –rm  -v /home/max:/jlab/work/max maureeungaro/clas12simulations:production bash</div></blockquote>
+<div class="section" id="use-the-internal-generator">
+<h2>Use the internal generator<a class="headerlink" href="#use-the-internal-generator" title="Permalink to this headline">¶</a></h2>
+<p>Use the clas12.gcard in /jlab/workdir to launch gemc. For example, to run 200 events in batch mode using 4 GeV electrons at theta=20 degrees and phi=5 degrees:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gemc</span> <span class="o">-</span><span class="n">USE_GUI</span><span class="o">=</span><span class="mi">0</span> <span class="o">-</span><span class="n">INPUT_GEN_FILE</span><span class="o">=</span><span class="s2">&quot;lund, dvcs.lund&quot;</span> <span class="o">-</span><span class="n">N</span><span class="o">=</span><span class="mi">200</span> <span class="o">-</span><span class="n">BEAM_P</span><span class="o">=</span><span class="s2">&quot;e-, 4*GeV, 20*deg, 5*deg&quot;</span>
+</pre></div>
+</div>
+<p><br></p>
+</div>
+<div class="section" id="use-a-lund-generated-file">
+<h2>Use a LUND generated file<a class="headerlink" href="#use-a-lund-generated-file" title="Permalink to this headline">¶</a></h2>
+<p>Use the clas12.gcard in /jlab/workdir to launch gemc. For example, to run 200 events in batch mode using
+generated events in a <a class="reference external" href="https://gemc.jlab.org/gemc/html/documentation/generator/lund.html">lund file</a> in the local directory /home/max (mounted in /jlab/work/max):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">jlab</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="nb">max</span>
+<span class="n">gemc</span> <span class="o">-</span><span class="n">USE_GUI</span><span class="o">=</span><span class="mi">0</span> <span class="o">-</span><span class="n">INPUT_GEN_FILE</span><span class="o">=</span><span class="s2">&quot;lund, dvcs.lund&quot;</span> <span class="o">-</span><span class="n">N</span><span class="o">=</span><span class="mi">200</span> <span class="o">/</span><span class="n">jlab</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">clas12</span><span class="o">.</span><span class="n">gcard</span>
+</pre></div>
+</div>
+<p>This will produce an output with 200 generated events in evio format.</p>
+<p><br></p>
+</div>
+</div>
+<div class="section" id="convert-gemc-evio-output-to-hipo">
+<span id="runningevio2hipoexample"></span><h1>Convert GEMC evio output to hipo<a class="headerlink" href="#convert-gemc-evio-output-to-hipo" title="Permalink to this headline">¶</a></h1>
+<p>Use evio2hipo to convert the gemc output into hipo.</p>
+<p>Notice that the field maps scaling are -1 for standard gcard settings, but make sure you match the values if you are not using the provided gcard:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">evio2hipo</span> <span class="o">-</span><span class="n">r</span> <span class="mi">11</span> <span class="o">-</span><span class="n">t</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">-</span><span class="n">i</span> <span class="n">out</span><span class="o">.</span><span class="n">ev</span> <span class="o">-</span><span class="n">o</span> <span class="n">out</span><span class="o">.</span><span class="n">hipo</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Tours: -1 = inbending electrons</li>
+<li>Solenoid -1: = field points upstream</li>
+<li>Run geometry 11: = default simulation geometry run number</li>
+</ul>
+<p><br></p>
+</div>
+<div class="section" id="reconstruction">
+<span id="runningcoatjaveexample"></span><h1>Reconstruction<a class="headerlink" href="#reconstruction" title="Permalink to this headline">¶</a></h1>
+<p>Use the script “createCookClara” in your path to setup the input file, output directory and (optional) the number of threads:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">createCookClara</span><span class="o">.</span><span class="n">csh</span> <span class="n">out</span><span class="o">.</span><span class="n">hipo</span> <span class="o">.</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p>This will create the setup file “cook.clara”.</p>
+<p>Then run clara-shell to launch reconstruction:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clara</span><span class="o">-</span><span class="n">shell</span> <span class="n">cook</span><span class="o">.</span><span class="n">clara</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+		</div>
+		<div class="sidebar">
+			<div role="search">
+				<h3 style="margin-top: 1.5em;">Search</h3>
+				<form class="search" action="search.html" method="get">
+					<input type="text" name="q" />
+					<input type="submit" value="Go" />
+					<input type="hidden" name="check_keywords" value="yes" />
+					<input type="hidden" name="area" value="default" />
+				</form>
+				<p class="searchtip" style="font-size: 90%">
+				Search within this website.
+				</p>
+			</div>
+			<br>
+			
+			<br>
+			
+		</div>
+		<div class="clearer"></div>
+	</div>
+</div>
+
+<div class="footer-wrapper">
+	<div class="footer">
+		<div class="center">
+			2018 Page Maintained by Maurizio Ungaro
+		</div>
+	</div>
+</div>
+
+  </body>
+</html>

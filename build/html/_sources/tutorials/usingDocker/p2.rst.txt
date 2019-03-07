@@ -1,0 +1,64 @@
+:orphan:
+
+.. |br| raw:: html
+
+   <br>
+
+===============================
+CLAS12 Docker Tutorial  - *2/5*
+===============================
+
+
+While you're downloading the image, let's take a look at the docker command line:
+
+
+.. figure:: commandLine.png
+	:width: 80%
+	:align: center
+
+|br|
+
+The docker repository stores various images on the cloud. Take a look at the `Jefferson Lab repository of images <https://hub.docker.com/u/jeffersonlab>`_.
+
+*clas12simulations* is the image name. Throughout this tutorial we will use the "iprod" tag version.
+
+
+|br|
+
+Command line options
+--------------------
+
+The **-it** options tells docker that the
+
+
+The **-it** options tells docker that the
+
+
+
+
+Whats inside the image
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. figure:: dockerContent.png
+	:width: 70%
+	:align: center
+
+
+Other useful docker commands
+
+
+
+
+
+
+|
+
+.. image:: ../previous.png
+	:target: 	p1.html
+	:align: left
+
+.. image:: ../next.png
+	:target: 	p3.html
+	:align: right
+
